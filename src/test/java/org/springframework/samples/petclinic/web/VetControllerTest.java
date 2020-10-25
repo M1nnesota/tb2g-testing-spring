@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,7 +46,7 @@ class VetControllerTest {
         //then
         assertEquals(1, model.size());
         assertEquals("vets/vetList", returnedView);
-        verify(clinicService).findVets();
+        then(clinicService).should().findVets();
     }
 
     @Test
@@ -58,6 +59,6 @@ class VetControllerTest {
         Vets vets = controller.showResourcesVetList();
         //then
         assertEquals(1, vets.getVetList().size());
-        verify(clinicService).findVets();
+        then(clinicService).should().findVets();
     }
 }

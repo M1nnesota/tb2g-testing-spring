@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +37,6 @@ class ClinicServiceImplTest {
         Collection<PetType> petTypesReturned = service.findPetTypes();
         //then
         assertEquals(petTypesReturned.size(), petTypes.size());
-        verify(repository).findPetTypes();
+        then(repository).should().findPetTypes();
     }
 }
