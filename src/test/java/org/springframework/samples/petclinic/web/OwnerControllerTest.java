@@ -75,6 +75,30 @@ class OwnerControllerTest {
     }
 
     @Test
+    void testUpdateOwnerValid() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/edit", 22)
+                .param("firstName", "Jimmy")
+                .param("lastName", "Buffett")
+                .param("address", "123 Duval St ")
+                .param("city", "Key West")
+                .param("telephone", "3151231234"))
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void testUpdateOwnerInvalid() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/edit", 22)
+                .param("firstName", "Jimmy")
+                .param("lastName", "Buffett")
+                .param("city", "Key West"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeHasErrors("owner"))
+                .andExpect(model().attributeHasFieldErrors("owner", "address"))
+                .andExpect(model().attributeHasFieldErrors("owner", "telephone"))
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"));
+    }
+
+    @Test
     void testReturnListOfOwners() throws Exception {
         given(clinicService.findOwnerByLastName("")).willReturn(Lists.newArrayList(new Owner(), new Owner()));
 
